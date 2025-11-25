@@ -113,7 +113,7 @@ export default function Portfolio() {
       <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-900/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-            DKT
+            Deepak Kumar Thakur
           </h1>
           <div className="flex gap-6">
             {['Home', 'Skills', 'Projects', 'Education', 'Contact'].map((item) => (
