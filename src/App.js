@@ -1,9 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // 👈 IMPORTED useRef
 import { Github, Linkedin, Mail, Phone, ChevronDown, Code, Award, GraduationCap, Briefcase, Download, ExternalLink } from 'lucide-react';
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // 1. 🎯 CREATE REFS FOR EACH SECTION
+  const homeRef = useRef(null);
+  const skillsRef = useRef(null);
+  const projectsRef = useRef(null);
+  // We'll group Certificates and Education for a single Education ref
+  const educationRef = useRef(null); 
+  const contactRef = useRef(null);
+
+  // Map section names to their corresponding refs
+  const sectionRefs = {
+    home: homeRef,
+    skills: skillsRef,
+    projects: projectsRef,
+    education: educationRef,
+    contact: contactRef,
+  };
+
+  // 2. 🖱️ CREATE CLICK HANDLER FUNCTION
+  const handleNavClick = (sectionName) => {
+    setActiveSection(sectionName);
+    const ref = sectionRefs[sectionName];
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' // Aligns the top of the element to the top of the viewport
+      });
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,6 +41,8 @@ export default function Portfolio() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Your existing data (skills, projects, certificates, education) remains the same
 
   const skills = {
     programming: ['Python', 'SQL', 'Java', 'Kotlin', 'XML'],
@@ -75,6 +106,7 @@ export default function Portfolio() {
     }
   ];
 
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       {/* Navigation */}
@@ -87,8 +119,9 @@ export default function Portfolio() {
             {['Home', 'Skills', 'Projects', 'Education', 'Contact'].map((item) => (
               <button
                 key={item}
-                onClick={() => setActiveSection(item.toLowerCase())}
-                className="hover:text-cyan-400 transition-colors duration-300"
+                // 3. 🔗 CALL HANDLER IN NAVBAR
+                onClick={() => handleNavClick(item.toLowerCase())}
+                className={`hover:text-cyan-400 transition-colors duration-300 ${activeSection === item.toLowerCase() ? 'text-cyan-400 font-semibold' : 'text-white'}`}
               >
                 {item}
               </button>
@@ -98,8 +131,10 @@ export default function Portfolio() {
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-6 pt-20">
+      {/* 4. 🏷️ ATTACH REF */}
+      <section ref={homeRef} id="home" className="min-h-screen flex items-center justify-center px-6 pt-20">
         <div className="max-w-4xl text-center">
+          {/* ... Hero Content ... */}
           <div className="mb-6">
             <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-cyan-400 shadow-lg shadow-cyan-500/50 mb-6">
               <img 
@@ -121,7 +156,7 @@ export default function Portfolio() {
           </h1>
           <p className="text-2xl text-purple-300 mb-6">Aspiring Data Scientist</p>
           <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
-            Passionate about transforming data into actionable insights. Skilled in Python, SQL, and Machine Learning with a strong foundation in data analysis and visualization.
+            Passionionate about transforming data into actionable insights. Skilled in Python, SQL, and Machine Learning with a strong foundation in data analysis and visualization.
           </p>
           <div className="flex justify-center gap-4 mb-8">
             <a href="https://github.com/DeepakThakur10" target="_blank" rel="noopener noreferrer" className="p-3 bg-slate-800 hover:bg-slate-700 rounded-full transition-all duration-300 hover:scale-110">
@@ -150,8 +185,10 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-6 bg-slate-900/50">
+      {/* 4. 🏷️ ATTACH REF */}
+      <section ref={skillsRef} id="skills" className="py-20 px-6 bg-slate-900/50">
         <div className="max-w-6xl mx-auto">
+          {/* ... Skills Content ... */}
           <h2 className="text-4xl font-bold mb-12 text-center flex items-center justify-center gap-3">
             <Code className="w-10 h-10 text-cyan-400" />
             Skills & Technologies
@@ -222,8 +259,10 @@ export default function Portfolio() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-20 px-6">
+      {/* 4. 🏷️ ATTACH REF */}
+      <section ref={projectsRef} id="projects" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
+          {/* ... Projects Content ... */}
           <h2 className="text-4xl font-bold mb-12 text-center flex items-center justify-center gap-3">
             <Briefcase className="w-10 h-10 text-cyan-400" />
             Featured Projects
@@ -274,9 +313,10 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Certificates & Achievements */}
+      {/* Certificates & Achievements (We will group this with Education using one Ref) */}
       <section className="py-20 px-6 bg-slate-900/50">
         <div className="max-w-6xl mx-auto">
+          {/* ... Certificates Content ... */}
           <h2 className="text-4xl font-bold mb-12 text-center flex items-center justify-center gap-3">
             <Award className="w-10 h-10 text-cyan-400" />
             Certificates & Achievements
@@ -298,8 +338,10 @@ export default function Portfolio() {
       </section>
 
       {/* Education Section */}
-      <section className="py-20 px-6">
+      {/* 4. 🏷️ ATTACH REF */}
+      <section ref={educationRef} id="education" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
+          {/* ... Education Content ... */}
           <h2 className="text-4xl font-bold mb-12 text-center flex items-center justify-center gap-3">
             <GraduationCap className="w-10 h-10 text-cyan-400" />
             Education
@@ -326,8 +368,10 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-6 bg-slate-900/50">
+      {/* 4. 🏷️ ATTACH REF */}
+      <section ref={contactRef} id="contact" className="py-20 px-6 bg-slate-900/50">
         <div className="max-w-4xl mx-auto text-center">
+          {/* ... Contact Content ... */}
           <h2 className="text-4xl font-bold mb-8">Let's Connect</h2>
           <p className="text-xl text-slate-300 mb-8">
             I'm always open to discussing data science opportunities, collaborations, or just chatting about data!
