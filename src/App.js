@@ -64,7 +64,7 @@ export default function Portfolio() {
         'Integrated real-time FireStore for live vote updates and election insights'
       ],
       github: 'https://github.com/DeepakThakur10/FairCast',
-      demo: 'https://github.com/DeepakThakur10/FairCast'
+      demo: 'https://urfile.in/files/PgIwG2iE/'
     },
     {
       title: 'Language Translator Chatbot',
